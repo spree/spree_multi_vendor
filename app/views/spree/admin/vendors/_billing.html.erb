@@ -1,0 +1,36 @@
+<div class="collapsable-card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <a class="w-100 collapsed text-decoration-none d-flex align-items-center text-dark font-weight-normal" data-toggle="collapse" href="#billing--collapsed" aria-expanded="true" aria-controls="billing--collapsed" id="billing--heading-collapsed">
+      <h5 class="card-title mb-0">
+        Billing
+      </h5>
+      <% if @vendor.billing_address.present? %>
+        <span class="badge  badge-success ml-3">
+          <%= icon('check') %>
+          Filled
+        </span>
+      <% else %>
+        <span class="badge  badge-warning ml-3">
+          <%= icon('exclamation-circle') %>
+          Not filled
+        </span>
+      <% end %>
+      <%= icon('chevron-down', class: 'arrow ml-auto') %>
+    </a>
+  </div>
+  <div id="billing--collapsed" class="collapse" aria-labelledby="billing--heading-collapsed">
+    <div class="card-body">
+      <% if @vendor.billing_email.present? %>
+        <p><%= mail_to @vendor.billing_email %></p>
+      <% end %>
+
+      <% if @vendor.billing_address.present? %>
+        <%= render 'spree/admin/shared/address', address: @vendor.billing_address %>
+      <% else %>
+        <p class="text-center py-5 text-muted">
+          <%= Spree.t(:not_provided) %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+---
+en:
+  activerecord:
+    attributes:
+      spree/vendor:
+        name: Name
+        state: Status
+    errors:
+      models:
+        spree/vendor:
+          attributes:
+            base:
+              cannot_destroy_vendor: Can't delete a partner with unfulfilled orders
+            contact_person_email:
+              cannot_be_store_admin: cannot belong to a store admin
+  spree:
+    admin:
+      marketplace: Marketplace
+      vendors:
+        all: All Vendors
+        approved: Approved
+        invited: Invited
+        onboarding: Onboarding
+        pending: Pending
+        ready_for_review: Ready for Review
+        rejected: Rejected
+        suspended: Suspended
+    invite_vendor: Invite Vendor
+    payouts: Payouts
+    suborders: Suborders
+    transactions: Transactions
+    vendor_delivery_reimbursement_total: Vendor Shipping Reimbursement Total
+    vendor_form:
+      billing: Billing
+      billing_address: Billing Address
+      billing_email: Billing Email
+      contact_information: Contact Information
+      contact_person_email: Contact person email
+      name: Company or brand name
+      platform_fee: Commission rate
+      public_information: Public Information
+      settings: Settings
+      shopify_shop_name: Shopify Shop Name
+    vendor_mailer:
+      account: Account
+      approved_email:
+        message: 'Congrats <strong>%{vendor_name}</strong>, you have been accepted
+          to %{store_name}!<br /> You can now log in to your supplier dashboard:'
+        subject: "%{vendor_name} has been accepted to sell on %{store_name}"
+      approved_email_to_marketplace_owners:
+        link_to_profile_page: You can check their %{profile_page}
+        message: "%{vendor_name} has been approved to start selling on %{store_name}!"
+      greeting: Hey %{vendor_name},
+      onboarding_completed:
+        message: Good news, %{vendor_name} completed their onboarding process.<br/><br/>
+          You can review their %{profile_page} and decide to approve %{vendor_name}
+          so they can start selling on your platform.
+        subject: "%{vendor_name} completed their onboarding process!"
+      onboarding_started:
+        message: Good news, %{vendor_name} accepted your invitation and started the
+          onboarding process.<br/><br/> You can track their progress on their %{profile_page}
+        subject: "%{vendor_name} just started the onboarding process!"
+      rejected_email:
+        message: Unfortunately we had to reject your application. If you would like
+          to discuss this matter please contact us via email at %{store_email}
+        subject: "%{vendor_name} has been rejected by %{store_name}"
+      suspended_email:
+        message: We're sorry but your organization was suspended. If you would like
+          to discuss this matter please contact us via email %{store_email}
+        subject: "%{vendor_name} has been suspended by %{store_name}"
+      thanks: Thank you,
+    vendor_onboarding_tasks:
+      add_billing_address: Add billing address
+      add_policies: Add policies
+      add_returns_address: Add returns address
+      map_shipping_methods: Map shipping methods
+      set_shipping_rates: Set shipping methods & rates
+    vendor_payouts_schedule_interval: Payouts schedule interval
+    vendor_reimbursement: Vendor Reimbursement
+    vendor_terms_of_service: Vendor Terms of Service

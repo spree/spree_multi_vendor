@@ -1,0 +1,22 @@
+<ul class="list-group mt-3 mb-3 collapse" id="marketplace-commissions">
+  <% marketplace_commissions.each do |marketplace_commission| %>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <%= marketplace_commission.item_name %>
+
+      <% if marketplace_commission.reversed? %>
+        (Refund/Return)
+      <% end %>
+      <span class="text-right">        
+        <% if suborder %>
+          <%= marketplace_commission.display_amount_with_sign(before_discount: true) %>
+        <% else %>
+          <%= marketplace_commission.display_amount_with_sign %>
+        <% end %>
+
+        <% if marketplace_commission.rate.present? %>
+          (<%= number_to_percentage(marketplace_commission.rate) %>)
+        <% end %>
+      </span>
+    </li>
+  <% end %>
+</ul>

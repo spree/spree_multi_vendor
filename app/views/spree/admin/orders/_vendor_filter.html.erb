@@ -1,0 +1,14 @@
+<% if defined?(current_vendor) && !current_vendor && !@vendor %>
+  <div class="col-12 col-lg-4">
+    <div class="form-group">
+      <%= f.label :vendor_orders_vendor_id_eq, Spree.t(:vendor) %>
+      <%= tom_select_tag "q[vendor_orders_vendor_id_eq]",
+      active_option: params.dig(:q, :vendor_orders_vendor_id_eq),
+      options: vendor_options,
+      select_data: {
+        filters_target: "input",
+      },
+      url: spree.select_options_admin_vendors_path(format: :json) %>
+    </div>
+  </div>
+<% end %>

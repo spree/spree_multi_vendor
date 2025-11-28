@@ -1,0 +1,3 @@
+<% if current_vendor.present? && !current_vendor.preferred_shipping_rates_confirmed && current_vendor.shipping_methods.any? %>
+  <%= link_to_with_icon 'check', 'Confirm Shipping Rates', spree.confirm_shipping_rates_admin_vendor_path(current_vendor), class: 'btn btn-primary ml-2', data: { turbo_method: :patch, turbo_confirm: Spree.t(:are_you_sure) }, id: 'confirm-shipping-rates-button' %>
+<% end %>

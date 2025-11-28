@@ -1,0 +1,18 @@
+<% if @suborders&.any? %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title">
+        <%= Spree.t(:suborders) %>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-info">
+        <p>For each of your Vendors fulfilling this order we will create a suborder. You can see the status of each suborder below.</p>
+        <p>By clicking on the suborder number you can preview the order as your partner sees it.</p>
+      </div>
+      <ul class="list-group">
+        <%= render collection: @suborders, partial: 'spree/admin/orders/marketplace_suborder', cached: spree_base_cache_scope, as: :suborder %>
+      </ul>
+    </div>
+  </div>
+<% end %>

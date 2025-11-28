@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "vendor_payouts_schedule_#{@vendor.id}" do %>
+  <div class="d-flex py-1 pl-2 pr-1 w-100 rounded bg-light border justify-content-between align-items-center">
+    <span class="text-muted"><%= @stripe_account.payouts_schedule&.capitalize %></span>
+
+    <%= link_to_with_icon 'edit', Spree.t(:edit), spree.edit_payouts_schedule_admin_vendor_path(@vendor), class: 'btn btn-light btn-sm' %>
+  </div>
+<% end if @stripe_account %>

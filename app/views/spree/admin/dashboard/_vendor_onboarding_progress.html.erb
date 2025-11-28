@@ -1,0 +1,17 @@
+  <div class="mb-3 card">
+    <div class="card-body">
+      <div class="mb-3">
+        Your overall setup progress
+        <span class="float-right badge badge-<%= vendor.onboarding_completed? ? 'success' : 'info' %>">
+        <% if vendor.onboarding_completed? %>
+          <%= icon('check', class: 'text-success') %>
+        <% end %>
+
+        <span>
+          <strong><%= vendor.onboarding_tasks_done %></strong> of <%= vendor.onboarding_tasks_total %> steps done
+        </span>
+      </span>
+      </div>
+      <%= progress_bar_component(vendor.onboarding_percentage) %>
+    </div>
+  </div>

@@ -1,0 +1,43 @@
+<div class="card mb-4">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item hover-light">
+      <%= render 'spree/admin/vendors/display_commission_rate', vendor: vendor %>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center hover-light">
+      Products
+      <abbr class="with-tip" data-html="true" title="
+        <div class='text-left p-1'>
+          <span class='text-muted'>Live</span>
+          <%= vendor.products.active.count %>
+          <br />
+
+          <span class='text-muted'>Draft</span>
+          <%= vendor.products.draft.count %>
+          <br />
+
+          <span class='text-muted'>Archived</span>
+          <%= vendor.products.archived.count %>
+        </div>
+      ">
+        <%= vendor.products.where.not(status: :archived).count %>
+      </abbr>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center hover-light">
+      Total sales
+      <span><%= vendor.display_sales_total %></span>
+    </li>
+    <% if vendor.returns_address.present? %>
+      <li class="list-group-item d-flex justify-content-between align-items-center hover-light">
+        Country
+        <span>
+          <%= flag_emoji(vendor.returns_address.country_iso) %>
+          <%= vendor.returns_address.country_iso.upcase %>
+        </span>
+      </li>
+    <% end %>
+    <li class="list-group-item d-flex justify-content-between align-items-center hover-light">
+      <%= Spree.t(:created_at) %>
+      <span><%= local_time_ago(vendor.created_at, class: 'with-tip') %></span>
+    </li>
+  </ul>
+</div>

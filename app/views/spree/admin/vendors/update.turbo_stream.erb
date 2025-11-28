@@ -1,0 +1,23 @@
+<% @vendor.reload # reload associations %>
+
+<%= turbo_stream.replace "vendor_card_#{@vendor.id}" do %>
+  <%= render 'spree/admin/vendors/card', vendor: @vendor %>
+<% end %>
+
+<%= turbo_stream.replace "vendor_commision_rate_#{@vendor.id}" do %>
+  <%= render 'spree/admin/vendors/display_commission_rate', vendor: @vendor %>
+<% end %>
+
+<%= turbo_stream.replace "vendor_payouts_schedule_#{@vendor.id}" do %>
+  <%= render 'spree/admin/vendors/display_payouts_schedule', vendor: @vendor %>
+<% end %>
+
+<%= turbo_stream.replace :onboarding_tasks do %>
+  <%= turbo_frame_tag :onboarding_tasks do %>
+    <%= render 'spree/admin/dashboard/vendor_onboarding_progress', vendor: @vendor %>
+    <%= render 'spree/admin/dashboard/vendor_onboarding_tasks', vendor: @vendor %>
+  <% end %>
+<% end if current_vendor %>
+
+<%= turbo_render_alerts %>
+<%= turbo_close_modal %>

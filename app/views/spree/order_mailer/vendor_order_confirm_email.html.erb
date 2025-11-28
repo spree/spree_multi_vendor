@@ -1,0 +1,36 @@
+<p>
+  <%= @order.name %> placed order <%= @order.number %> on <%= @order.completed_at.in_time_zone(@order.store.preferred_timezone).strftime('%b%e ') %> at <%= @order.completed_at.in_time_zone(@order.store.preferred_timezone).strftime('%l:%M %P') %>
+</p>
+<p>
+  <a href="<%= @url %>" class="button button">View order</a>
+</p>
+<table class="purchase" role="presentation">
+  <tr>
+    <td class="purchase_footer">
+      <h2><%= Spree.t('order_mailer.confirm_email.order_summary', number: @order.number) %></h2>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= render 'spree/shared/purchased_items_table', line_items: @order.line_items, order: @order %>
+    </td>
+  </tr>
+  <tr>
+    <td class="purchase_footer">
+      <p>
+        <h2>Delivery method</h2>
+        <%= @order.shipments.map { |shipment| shipment.shipping_method&.name.to_s }.compact.uniq.join(',') %>
+      </p>
+      <p>
+        <h2>Shipping address</h2>
+        <% ship_address = @order.ship_address %>
+
+        <%= ship_address.full_name %><br>
+        <%= ship_address.street %><br>
+        <%= ship_address.city %><br>
+        <%= ship_address.zipcode %><br>
+        <%= ship_address.phone %><br>
+      </p>
+    </td>
+  </tr>
+</table>

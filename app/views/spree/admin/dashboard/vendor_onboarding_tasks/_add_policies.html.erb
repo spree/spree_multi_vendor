@@ -1,0 +1,14 @@
+<p>
+  <% if done %>
+    You've added policies, good job!
+  <% else %>
+    You need to supply all policies.
+  <% end %>
+</p>
+<div>
+  <% if done %>
+    <%= link_to_with_icon 'edit', Spree.t(:edit), spree.admin_policies_path, class: 'btn btn-light', data: { turbo: false } %>
+  <% else %>
+    <%= link_to Spree.t('vendor_onboarding_tasks.add_policies'), spree.admin_policies_path, class: 'btn btn-primary', data: { turbo: false } %>
+  <% end %>
+</div>

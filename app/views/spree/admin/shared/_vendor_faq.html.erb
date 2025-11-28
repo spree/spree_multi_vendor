@@ -1,0 +1,62 @@
+<h2 class="mb-3">Quick FAQ</h2>
+<div class="accordion mb-3 shadow-xs" id="quickFaq">
+  <div class="card shadow-none">
+    <div class="card-header p-0" id="headingOne">
+      <button class="btn rounded-0 text-dark collapsed w-100 justify-content-start hover-light p-3" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        How do I add products to my shop?
+      </button>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#quickFaq">
+      <div class="card-body">
+        <p>
+          Your products are automatically pulled from your Shopify store. You can add new products to your Shopify store and they will be automatically added to your Vendo shop.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow-none">
+    <div class="card-header p-0" id="headingTwo">
+      <button class="btn rounded-0 text-dark collapsed w-100 justify-content-start hover-light p-3" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Do I need to check <%= current_store.name %> for new orders?
+      </button>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#quickFaq">
+      <div class="card-body">
+        <p>
+          Orders are automatically sent to your Shopify or WooCommerce store. We support all
+          of your fulfillment apps.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow-none">
+    <div class="card-header p-0" id="headingTwo">
+      <button class="btn rounded-0 text-dark collapsed w-100 justify-content-start hover-light p-3" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+        How returns work?
+      </button>
+    </div>
+    <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#quickFaq">
+      <div class="card-body">
+        <p>
+          Returns are automatically sent to your Shopify store. You can check your Shopify store for new returns.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow-none">
+    <div class="card-header p-0" id="headingTwo">
+      <button class="btn rounded-0 text-dark collapsed w-100 justify-content-start hover-light p-3" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+        What about refunds and cancellations?
+      </button>
+    </div>
+    <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#quickFaq">
+      <div class="card-body">
+        <p>
+          Refunds and cancellations performed in your Shopify store will be automatically reflected in <%= current_store.name %> and
+          the customer will automatically receive the proper refund.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

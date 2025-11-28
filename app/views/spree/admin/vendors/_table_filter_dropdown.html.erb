@@ -1,0 +1,38 @@
+<div class="dropdown">
+  <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+    <span class="text-muted font-weight-normal mr-1">
+      <%= Spree.t(:show) %>
+    </span> 
+    <%= vendor_filter_dropdown_value %>
+  </button>
+  <div class="dropdown-menu dropdown-menu-right w-100" style="min-width: 200px">
+    <%= active_link_to Spree.t('admin.vendors.all'), params.to_unsafe_h.deep_merge({q: {state_eq: nil}}), class: 'dropdown-item', active: (params[:q] || {}).values_at(*%w[state_eq] ).all?(&:blank?) %>
+    <%= link_to Spree.t('admin.vendors.pending'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :pending}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'pending'}" %>
+    <%= link_to Spree.t('admin.vendors.invited'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :invited}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'invited'}" %>
+    <%= link_to Spree.t('admin.vendors.onboarding'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :onboarding}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'onboarding'}" %>
+    <%= link_to params.to_unsafe_h.deep_merge({q: {state_eq: :ready_for_review}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'ready_for_review'}" do %>
+        <%= Spree.t('admin.vendors.ready_for_review') %>
+        <% if ready_for_review_vendors_count&.positive? %>
+          <span class="badge  badge-primary ml-2">
+            <%= ready_for_review_vendors_count %>
+          </span>
+        <% end %>
+    <% end %>
+    <%= link_to Spree.t('admin.vendors.approved'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :approved}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'approved'}" %>
+    <%= link_to Spree.t('admin.vendors.rejected'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :rejected}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'rejected'}" %>
+    <%= link_to Spree.t('admin.vendors.suspended'),
+      params.to_unsafe_h.deep_merge({q: {state_eq: :suspended}}),
+      class: "dropdown-item #{'active' if params.dig(:q, :state_eq) == 'suspended'}" %>
+  </div>
+</div>

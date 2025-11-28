@@ -1,0 +1,19 @@
+<% vendors_active = %w[vendors].include?(controller_name) %>
+<li class="nav-item">
+  <%= nav_item(Spree.t(:vendors), spree.admin_vendors_path, icon: 'heart-handshake', active: vendors_active) %>
+
+  <% if vendors_active && ready_for_review_vendors_count&.positive? %>
+    <ul class="ml-4 pl-1 mb-2 nav-submenu flex-column mt-1">
+      <% if ready_for_review_vendors_count&.positive? %>
+        <li class="nav-item">
+          <%= active_link_to spree.admin_vendors_path(q: { state_eq: 'ready_for_review' }), class: 'nav-link py-lg-1 d-flex justify-content-between', active: params.dig(:q, :state_eq) == 'ready_for_review' do %>
+            <span>Vendors to review</span>
+            <span class="badge">
+              <%= ready_for_review_vendors_count %>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</li>

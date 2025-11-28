@@ -1,0 +1,12 @@
+<div class="alert alert-info">
+  We need this information for your payouts and invoices.
+</div>
+
+<%= turbo_frame_tag :edit_billing_address, class: 'w-100' do %>
+  <% unless done %>
+    <%= render 'spree/admin/vendors/forms/billing_address', vendor: vendor %>
+  <% else %>
+    <%= render 'spree/admin/shared/address', address: vendor.billing_address %>
+    <%= link_to_with_icon 'edit', Spree.t(:edit), spree.edit_billing_address_admin_vendor_path(vendor), class: 'btn btn-light mt-3' %>
+  <% end %>
+<% end %>

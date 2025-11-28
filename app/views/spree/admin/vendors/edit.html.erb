@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  <%= page_header_back_button spree.admin_vendor_path(@vendor) %>
+  <%= @vendor.name %>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @vendor } %>
+
+<%= form_for [:admin, @vendor] do |f| %>
+  <div class="card-lg">
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', required: true, autofocus: true, placeholder: 'eg. Apple' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :billing_email %>
+      <%= f.email_field :billing_email, class: 'form-control', placeholder: 'eg. tim@apple.com' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= turbo_save_button_tag Spree.t('actions.update') %>
+    <%= link_to Spree.t('actions.discard'), spree.admin_vendor_path(@vendor), class: 'btn btn-light' %>
+  </div>
+<% end %>

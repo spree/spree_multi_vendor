@@ -1,0 +1,63 @@
+<% if can?(:manage, Spree::Vendor) && !current_vendor %>
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="d-flex align-items-center">
+        <h5 class="card-title"><%= Spree.t(:vendors) %></h4>
+        <% if Spree::Vendor.any? %>
+          <span class="badge  badge-info ml-1">
+            <%= Spree::Vendor.count %>
+          </span>
+        <% end %>
+      </span>
+      <%= link_to Spree.t(:view_all), spree.admin_vendors_path, class: 'btn btn-sm btn-light' %>
+    </div>
+    <div class="card-body p-0 overflow-hidden">
+      <% if Spree::Vendor.any? %>
+        <ul class="nav nav-pills py-2 px-3" id="vendors" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active px-2" id="pills-all-tab" data-toggle="pill" data-target="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">All</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link px-2" id="pills-live-tab" data-toggle="pill" data-target="#pills-live" role="tab" aria-controls="pills-live" aria-selected="false">Live</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link px-2" id="pills-review-tab" data-toggle="pill" data-target="#pills-review" role="tab" aria-controls="pills-review" aria-selected="false">For review</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link px-2" id="pills-onboarding-tab" data-toggle="pill" data-target="#pills-onboarding" role="tab" aria-controls="pills-onboarding" aria-selected="false">Onboarding</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="vendorsContent">
+          <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all">
+            <%= render 'spree/admin/dashboard/vendors_list', vendors: Spree::Vendor.includes(logo_attachment: :blob).order(created_at: :desc).first(5) %>
+          </div>
+          <div class="tab-pane fade" id="pills-live" role="tabpanel" aria-labelledby="pills-live">
+            <%= render 'spree/admin/dashboard/vendors_list', vendors: Spree::Vendor.approved.includes(logo_attachment: :blob).order(created_at: :desc).first(5) %>
+          </div>
+          <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review">
+            <%= render 'spree/admin/dashboard/vendors_list', vendors: Spree::Vendor.ready_for_review.includes(logo_attachment: :blob).order(created_at: :desc).first(5) %>
+          </div>
+          <div class="tab-pane fade" id="pills-onboarding" role="tabpanel" aria-labelledby="pills-review">
+            <%= render 'spree/admin/dashboard/vendors_list', vendors: Spree::Vendor.onboarding.includes(logo_attachment: :blob).order(created_at: :desc).first(5) %>
+          </div>
+        </div>
+      <% else %>
+        <p class="m-3 text-center text-muted">
+          <%= icon 'heart-handshake', height: 100, class: 'mb-3', style: 'opacity: 0.5' %>
+          <br />
+          <strong>Invite your vendors</strong>
+          <br />
+          Invite your vendors to sell together.
+        </p>
+        <div class="text-center p-3 mb-3">
+          <%= invite_vendor_button if can?(:create, Spree::Vendor) %>
+        </div>
+      <% end %>
+    </div>
+    <% if Spree::Vendor.count > 5 %>
+      <div class="card-footer pt-0">
+        <%= link_to Spree.t(:view_all), spree.admin_vendors_path, class: 'btn btn-light btn-block' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

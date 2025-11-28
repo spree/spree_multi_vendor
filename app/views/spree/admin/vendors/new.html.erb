@@ -1,0 +1,50 @@
+<% content_for :page_title do %>
+  <%= page_header_back_button spree.admin_vendors_path %>
+  <%= Spree.t(:invite_vendor) %>
+<% end %>
+
+<%= turbo_frame_tag :dialog_modal do %>
+  <%= form_for [:admin, @vendor] do |f| %>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><%= Spree.t(:invite_vendor) %></h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="<%= Spree.t(:close) %>" />
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'spree/admin/shared/error_messages', locals: { target: @vendor } %>
+        <div class="form-group">
+          <%= f.label :name, Spree.t('vendor_form.name') %>
+          <%= f.text_field :name, class: 'form-control', required: true, autofocus: true, placeholder: 'eg. Apple' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :contact_person_email do %>
+            <%= Spree.t('vendor_form.contact_person_email') %>
+            <small class="text-muted">Better if it's a personal email</small>
+          <% end %>
+          <%= f.email_field :contact_person_email, class: 'form-control', required: true, placeholder: 'eg. tim@apple.com' %>
+        </div>
+        <div class="form-group">
+          <%= f.label :platform_fee, 'Commission Rate' %>
+          <div class="d-flex align-items-center">
+            <div class="input-group w-50">
+              <%= f.number_field :platform_fee, class: 'form-control', step: 0.1, min: 0 %>
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+            <div class="w-50 text-muted small pl-2">
+              This is the proposed % of partner sales you will receive as commission.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-light" data-dismiss="modal"><%= Spree.t('actions.discard') %></button>
+        <%= turbo_save_button_tag nil, class: 'btn btn-primary d-flex align-items-center' do %>
+          <%= icon 'send' %>
+          <%= Spree.t('actions.send_invitation') %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

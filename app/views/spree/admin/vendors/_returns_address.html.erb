@@ -1,0 +1,34 @@
+<div class="collapsable-card mb-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <a class="w-100 collapsed text-decoration-none d-flex align-items-center text-dark font-weight-normal" data-toggle="collapse" href="#returns-address--collapsed" aria-expanded="true" aria-controls="returns-address--collapsed" id="returns-address--heading-collapsed">
+      <h5 class="card-title mb-0">
+        Returns address
+      </h5>
+      <% if @vendor.returns_address.present? %>
+        <span class="badge  badge-success ml-3">
+          <%= icon('check') %>
+          Filled
+        </span>
+      <% else %>
+        <span class="badge  badge-warning ml-3">
+          <%= icon('exclamation-circle') %>
+          Not filled
+        </span>
+      <% end %>
+      <%= icon('chevron-down', class: 'arrow ml-auto') %>
+    </a>
+  </div>
+  <div id="returns-address--collapsed" class="collapse" aria-labelledby="returns-address--heading-collapsed">
+    <div class="card-body">
+      <% if @vendor.returns_address.present? %>
+        <%= render 'spree/admin/shared/address', address: @vendor.returns_address %>
+        <br />
+        <%= render 'spree/admin/shared/map', map_object: @vendor.returns_address, label: @vendor.name %>
+      <% else %>
+        <p class="text-center py-5 text-muted">
+          Not yet provided by partner
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>

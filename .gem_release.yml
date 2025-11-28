@@ -1,0 +1,3 @@
+bump:
+  file: "lib/spree_multi_vendor/version.rb"
+

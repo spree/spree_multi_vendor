@@ -1,0 +1,22 @@
+<% if @order.marketplace_commissions.any? || marketplace_commission_on_vendor_orders?(@order) %>
+  <li class="list-group-item border-0">
+    <span class="d-flex justify-content-between align-items-center">
+      <span>
+        <%= Spree.t(:commission_total) %>
+      </span>
+
+      <span class="text-right span" id='platform_fee_total'>
+        <%= link_to '#marketplace-commissions', class: 'btn btn-light btn-sm mr-2', data: { toggle: 'collapse' } do %>
+          <%= Spree.t(:show_details) %>
+          <%= icon('selector', height: 12, class: 'mr-0 ml-1') %>
+        <% end %>
+
+        <%= order_summary_marketplace_commission_money(@order).to_html %>
+      </span>
+    </span>
+
+    <%= render 'spree/admin/orders/marketplace_commissions',
+      marketplace_commissions: order_summary_marketplace_commissions(@order),
+      suborder: @order.suborder? %>
+  </li>
+<% end %>

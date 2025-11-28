@@ -1,0 +1,8 @@
+<%= Spree.t('vendor_mailer.greeting', vendor_name: @vendor.name) %>
+
+<%= strip_tags Spree.t('vendor_mailer.approved_email.message', vendor_name: @vendor.name, store_name: current_store.name) %>
+Go to the dashboard by clicking on: <%=  spree.admin_dashboard_url(host: @vendor.store.url) %>
+
+============================================================
+<%= Spree.t('vendor_mailer.thanks') %>
+<%= current_store.name %>

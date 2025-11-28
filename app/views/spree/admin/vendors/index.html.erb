@@ -1,0 +1,55 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:vendors) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= link_to spree.admin_vendors_path(q: params[:q].to_unsafe_hash, page: params[:page], per_page: params[:per_page], format: :csv), class: 'btn btn-light bg-transparent with-tip d-none d-lg-inline-flex', title: 'Export Vendors to a CSV file. To filter specific Vendors use "Filters" or status tabs before clicking this button' do %>
+    <%= icon 'table-export' %>
+    <%= Spree.t(:export) %>
+  <% end %>
+
+  <%= invite_vendor_button if can?(:create, Spree::Vendor) %>
+<% end %>
+
+<div class="card-lg p-0">
+  <%= render "filters" %>
+
+  <% if @vendors.any? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="text-muted">
+          <th>
+            <%= sort_link @search, :name, I18n.t(:name, scope: "activerecord.attributes.spree/vendor") %>
+          </th>
+          <th>
+            <%= sort_link @search, :state, I18n.t(:state, scope: "activerecord.attributes.spree/vendor") %>
+          </th>
+          <th>
+            Onboarding progress
+          </th>
+          <th>
+            Integration
+          </th>
+          <th>
+            <%= sort_link @search, :products_count, Spree.t(:products_count) %>
+          </th>
+          <th>
+            <%= sort_link @search, :sales_total, Spree.t(:sales_total) %>
+          </th>
+          <th>
+            <%= sort_link @search, :commission_total, Spree.t(:commission_total) %>
+          </th>
+          <th>
+            <%= sort_link @search, :created_at, Spree.t(:created_at) %>
+          </th>
+        </thead>
+        <tbody>
+          <%= render partial: "spree/admin/vendors/vendor", collection: @vendors, cached: spree_base_cache_scope %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <%= render "spree/admin/shared/no_resource_found", new_object_url: nil %>
+  <% end %>
+  <%= render partial: "spree/admin/shared/index_table_options", locals: { collection: @collection } if @vendors.any? %>
+</div>

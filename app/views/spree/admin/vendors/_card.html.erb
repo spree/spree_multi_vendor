@@ -1,0 +1,45 @@
+<% cache spree_base_cache_scope.call(@vendor) do %>
+  <%= turbo_frame_tag "vendor_card_#{@vendor.id}" do %>
+    <div class="card mb-4 position-relative">
+      <div class="position-absolute right-0 top-0 pr-2 pt-2">
+        <span data-toggle="modal" data-target="#modal-lg" class="d-none d-lg-inline-block">
+          <%= link_to_with_icon 'edit', Spree.t(:edit), spree.edit_brand_admin_vendor_path(@vendor), class: 'btn btn-light', data: { turbo_frame: :dialog_modal_lg } %>
+        </span>
+      </div>
+      <% if @vendor.cover_photo.attached? && @vendor.cover_photo.variable? %>
+        <%= image_tag(
+              main_app.cdn_image_url(
+                @vendor.cover_photo.variant(spree_image_variant_options(resize_to_fill: [800, 300]))
+              ),
+              class: 'card-img-top bg-light',
+              alt: @vendor.name,
+              style: 'height: 260px'
+            ) %>
+      <% else %>
+        <div class="card-img-top bg-light" style="height: 260px;"></div>
+      <% end %>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-3 mb-4 mb-lg-0">
+            <div class="bg-white mb-4 overflow-hidden d-flex align-items-center justify-content-center rounded-lg text-center" style="width: 160px;height: 160px;margin-top:-100px">
+              <% if @vendor.logo.attached? && @vendor.logo.variable? %>
+                <%= image_tag(
+                      main_app.cdn_image_url(
+                        @vendor.logo.variant(spree_image_variant_options(resize_to_limit: [150, 150]))
+                      ),
+                      alt: @vendor.name,
+                      class: 'rounded-lg'
+                    ) %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <% if @vendor.about.present? %>
+              <%= @vendor.about %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

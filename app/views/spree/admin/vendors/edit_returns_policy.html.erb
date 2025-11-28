@@ -1,0 +1,34 @@
+<%= content_for(:page_title) do %>
+  <%= Spree.t(:returns) %>
+<% end %>
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="card-title">
+          <%= Spree.t(:returns_policy) %>
+        </h5>
+      </div>
+      <div class="card-body">
+        <%= turbo_frame_tag :add_policies do %>
+          <%= render 'spree/admin/vendors/forms/returns_policy', vendor: @vendor %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">
+          <%= Spree.t(:returns_address) %>
+        </h5>
+      </div>
+      <div class="card-body">
+        <%= turbo_frame_tag :add_returns_address do %>
+          <%= render 'spree/admin/vendors/forms/returns_address', vendor: @vendor %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

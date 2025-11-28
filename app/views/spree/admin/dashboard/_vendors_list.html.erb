@@ -1,0 +1,10 @@
+<% if vendors.any? %>
+  <ul class="list-group list-group-flush rounded-lg p-1">
+    <%= render collection: vendors, partial: 'spree/admin/dashboard/vendor_list_item', as: :vendor, cached: spree_base_cache_scope %>
+  </ul>
+<% else %>
+  <p class="text-muted text-center m-5">
+    No vendors matching your criteria.
+  </p>
+<% end %>
+

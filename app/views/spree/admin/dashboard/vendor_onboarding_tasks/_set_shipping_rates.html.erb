@@ -1,0 +1,14 @@
+<div class="mb-3">
+  <% if done %>
+    You've set up your shipping methods, good job!
+  <% else %>
+    You need to setup shipping methods and confirm shipping rates.
+  <% end %>
+</div>
+<div>
+  <% if done %>
+    <%= link_to_with_icon 'edit', Spree.t(:edit), spree.admin_shipping_methods_path, class: 'btn btn-light', data: { turbo: false } %>
+  <% else %>
+    <%= link_to 'Manage Shipping Methods', spree.admin_shipping_methods_path, class: 'btn btn-primary', data: { turbo: false } %>
+  <% end %>
+</div>

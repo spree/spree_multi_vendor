@@ -1,0 +1,51 @@
+<tr id="<%= dom_id(vendor) %>" data-controller="row-link">
+  <td class="w-35 p-0 text-nowrap">
+    <%= vendor_logo_link(vendor, data: { row_link_target: 'link' }) %>
+  </td>
+  <td class="w-15 text-nowrap cursor-pointer" data-action="click->row-link#openLink">
+    <%= vendor_status_badge(vendor) %>
+  </td>
+  <td class="w-20 cursor-pointer" data-action="click->row-link#openLink">
+    <small class="text-muted">
+      <%= vendor.onboarding_tasks_done %> of <%= vendor.onboarding_tasks_total %> steps done
+    </small>
+    <div class="progress">
+      <div class="progress-bar bg-success" style="width: <%= vendor.onboarding_percentage %>%" role="progressbar" aria-valuenow="<%= vendor.onboarding_percentage %>" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </td>
+  <td class="w-5 cursor-pointer" data-action="click->row-link#openLink">
+    <% if vendor.respond_to?(:external_store) && vendor.external_store.present? %>
+      <% if vendor.external_store.shopify? %>
+        <%= image_tag 'shopify-icon.png', height: 20, alt: 'Shopify', title: 'Shopify', class: 'with-tip' %>
+      <% elsif vendor.external_store.woo_commerce? %>
+        <%= image_tag 'WooCommerce_logo.svg', height: 20, alt: 'Woo', title: 'Woo Commerce', class: 'with-tip' %>
+      <% end %>
+    <% else %>
+      <span class="text-muted small"><%= Spree.t(:not_available) %></span>
+    <% end %>
+  </td>
+  <td class="w-10 text-nowrap cursor-pointer" data-action="click->row-link#openLink">
+    <% if vendor.products_count&.positive? %>
+      <%= vendor.products_count %>
+    <% else %>
+      <span class="text-muted small"><%= Spree.t(:not_available) %></span>
+    <% end %>
+  </td>
+  <td class="w-10 text-nowrap">
+    <% if vendor.sales_total.positive? %>
+      <%= vendor.display_sales_total %>
+    <% else %>
+      <span class="text-muted small"><%= Spree.t(:not_available) %></span>
+    <% end %>
+  </td>
+  <td class="w-10 text-nowrap cursor-pointer" data-action="click->row-link#openLink">
+    <% if vendor.commission_total.positive? %>
+      <%= vendor.display_commission_total %>
+    <% else %>
+      <span class="text-muted small"><%= Spree.t(:not_available) %></span>
+    <% end %>
+  </td>
+  <td class="w-15 text-nowrap cursor-pointer" data-action="click->row-link#openLink">
+    <%= local_time_ago(vendor.created_at, class: 'with-tip') %>
+  </td>
+</tr>

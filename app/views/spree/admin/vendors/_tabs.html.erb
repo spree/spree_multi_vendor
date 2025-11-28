@@ -1,0 +1,104 @@
+<ul class="nav nav-pills mb-3" id="vendor" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-overview-tab" data-toggle="pill" data-target="#pills-overview" role="tab" aria-controls="pills-overview" aria-selected="true">Overview</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-products-tab" data-toggle="pill" data-target="#pills-products" role="tab" aria-controls="pills-products" aria-selected="false"><%= Spree.t(:products) %></a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-orders2-tab" data-toggle="pill" data-target="#pills-orders2" role="tab" aria-controls="pills-orders2" aria-selected="false"><%= Spree.t(:orders) %></a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-users-tab" data-toggle="pill" data-target="#pills-users" role="tab" aria-controls="pills-users" aria-selected="false"><%= Spree.t(:users) %></a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-invitations-tab" data-toggle="pill" data-target="#pills-invitations" role="tab" aria-controls="pills-invitations" aria-selected="false"><%= Spree.t(:invitations) %></a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-policies-tab" data-toggle="pill" data-target="#pills-policies" role="tab" aria-controls="pills-policies" aria-selected="false"><%= Spree.t(:policies) %></a>
+  </li>
+</ul>
+
+<div class="tab-content" id="vendorContent">
+  <div class="tab-pane fade show active" id="pills-overview" role="tabpanel" aria-labelledby="pills-overview">
+    <div class="mb-2">
+      <%= form_tag spree.admin_dashboard_analytics_path, method: :get, data: { turbo_frame: :analytics } do %>
+        <%= hidden_field_tag :vendor_id, vendor.id %>
+        <%= render 'spree/admin/shared/calendar_range_picker',
+          date_from_value: params[:date_from] || 1.month.ago.end_of_day,
+          date_to_value: params[:date_to] || Time.zone.now.beginning_of_day %>
+      <% end %>
+    </div>
+
+    <%= turbo_frame_tag :analytics, src: spree.admin_dashboard_analytics_path(vendor_id: vendor.id), loading: :lazy do %>
+      <%= render 'spree/admin/shared/analytics_loader_skeleton' %>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="pills-products" role="tabpanel" aria-labelledby="pills-products">
+    <div class="card-lg p-0">
+      <%= turbo_frame_tag :products_list, src: spree.admin_vendor_products_path(vendor, frame_name: :products_list), loading: :lazy, autoscroll: true, data: { autoscroll_block: :nearest, autoscroll_behavior: :smooth } do %>
+        <%= render 'spree/admin/shared/spinner' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-orders2" role="tabpanel" aria-labelledby="pills-orders2">
+    <div class="card-lg p-0">
+      <%= turbo_frame_tag :orders_list, src: spree.admin_vendor_orders_path(vendor, frame_name: :orders_list), loading: :lazy, autoscroll: true, data: { autoscroll_block: :nearest, autoscroll_behavior: :smooth } do %>
+        <%= render 'spree/admin/shared/spinner' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users">
+    <div class="card-lg">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="rounded-lg-top-left"><%= Spree.t(:user) %></th>
+              <th><%= Spree.t(:roles) %></th>
+              <th class="rounded-lg-top-right"><%= Spree.t(:created_at) %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: 'spree/admin/admin_users/admin_user', collection: @vendor_users %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-invitations" role="tabpanel" aria-labelledby="pills-invitations">
+    <div class="card-lg">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th class="rounded-lg-top-left"><%= Spree.t(:email) %></th>
+            <th><%= I18n.t('activerecord.attributes.spree/invitation.inviter') %></th>
+            <th><%= Spree.t(:roles) %></th>
+            <th><%= Spree.t(:status) %></th>
+            <th class="rounded-lg-top-right"><%= Spree.t(:created_at) %></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody id="invitations">
+            <%= render collection: @vendor.invitations, partial: 'spree/admin/invitations/invitation', as: :invitation %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-policies" role="tabpanel" aria-labelledby="pills-policies">
+    <div class="card-lg">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <%= render 'spree/admin/policies/table_header' %>
+          </thead>
+          <tbody>
+            <%= render partial: 'spree/admin/policies/table_row', collection: @vendor.policies, as: :policy %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

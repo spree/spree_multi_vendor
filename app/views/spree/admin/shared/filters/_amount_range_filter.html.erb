@@ -1,0 +1,25 @@
+<div class="amount-range-filter">
+  <div class="form-group">
+    <%= label_tag :amount_range, Spree.t(:amount_range) %>
+    <div class="row pb-0">
+      <div class="col-12 col-md-6 mb-3 mb-md-0">
+        <%= form.label :amount_gteq, class: "d-none" %>
+        <%= form.number_field :amount_gteq,
+                          class: "form-control",
+                          placeholder: Spree.t(:from),
+                          data: {
+                            filters_target: :input,
+                          } %>
+      </div>
+      <div class="col-12 col-md-6 mt-3 mt-md-0">
+        <%= form.label :amount_lteq, class: "d-none" %>
+        <%= form.number_field :amount_lteq,
+                          class: "form-control",
+                          placeholder: Spree.t(:to),
+                          data: {
+                            filters_target: :input,
+                          } %>
+      </div>
+    </div>
+  </div>
+</div>
