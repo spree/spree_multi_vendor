@@ -1,8 +1,0 @@
-<%= render partial: 'spree/admin/vendors/tabs', locals: { current: :details } %>
-
-<%= form_for [:admin, @vendor] do |f| %>
-  <fieldset>
-    <%= render partial: 'form', locals: { f: f } %>
-    <%= render partial: 'spree/admin/shared/edit_resource_links' %>
-  </fieldset>
-<% end %>
