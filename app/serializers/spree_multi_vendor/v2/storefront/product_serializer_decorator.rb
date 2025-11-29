@@ -3,9 +3,6 @@ module SpreeMultiVendor
     module Storefront
       module ProductSerializerDecorator
         def self.prepended(base)
-          base.attribute :description, &:sanitized_description
-          base.attribute :meta_description, &:sanitized_meta_description
-
           base.belongs_to :vendor
           base.belongs_to :shipping_category
 
