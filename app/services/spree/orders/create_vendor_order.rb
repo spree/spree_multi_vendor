@@ -140,7 +140,7 @@ module Spree
       def create_vendor_order_notification(order:, vendor:, vendor_order:)
         vendor_order.deliver_vendor_order_notification_email
 
-        success(order: order, vendor: vendor, vendor_order: vendor_order.reload)
+        success(vendor_order: vendor_order.reload, vendor: vendor)
       end
 
       def update_vendor_cache(vendor_order:, vendor:)
