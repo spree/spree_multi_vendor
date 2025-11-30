@@ -428,8 +428,6 @@ RSpec.describe Spree::Order, type: :model do
         parent_order.apply_gift_card(gift_card)
 
         order.update_column(:total, 40)
-
-        allow(SpreeStripe::CreateReverseStripeTransferWorker).to receive(:perform_in)
       end
 
       it 'voids the completed store credit payments' do
