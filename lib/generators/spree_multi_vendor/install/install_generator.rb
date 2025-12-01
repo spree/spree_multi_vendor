@@ -3,6 +3,12 @@ module SpreeMultiVendor
     class InstallGenerator < Rails::Generators::Base
       class_option :migrate, type: :boolean, default: true
 
+      source_root File.expand_path('templates', __dir__)
+
+      def copy_initializer
+        template 'config/initializers/spree_multi_vendor.rb', 'config/initializers/spree_multi_vendor.rb'
+      end
+
       def add_migrations
         run 'bundle exec rake railties:install:migrations FROM=spree_multi_vendor'
       end
