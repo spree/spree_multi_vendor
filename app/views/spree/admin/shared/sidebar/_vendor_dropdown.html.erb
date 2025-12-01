@@ -1,0 +1,8 @@
+<div class="store-dropdown" id="store-menu" data-turbo-permanent>  
+  <button type="button" class="btn store-dropdown-button">
+    <%= first_letter_icon(current_vendor.name, height: 32, width: 32) %>
+    <span class="d-none d-lg-block">
+      <%= truncate(current_vendor.name, length: 15) %>
+    </span>
+  </button>
+</div>

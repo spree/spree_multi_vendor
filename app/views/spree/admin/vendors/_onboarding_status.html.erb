@@ -1,0 +1,45 @@
+<div class="collapsable-card mb-4">
+  <div class="card-header d-block border-0 h-auto">
+    <a class="collapsed text-decoration-none d-flex align-items-center text-dark font-weight-normal w-100" data-toggle="collapse" href="#onboarding-collapsed" aria-expanded="true" aria-controls="onboarding-collapsed" id="onboarding-heading-collapsed">
+      <h5 class="card-title mb-0">
+        Onboarding progress
+      </h5>
+
+      <% if vendor.onboarding_completed? %>
+        <span class="badge  badge-success ml-3">
+          <%= icon('check') %> All done &nbsp;🎉
+        </span>
+      <% else %>
+        <span class="small ml-3 badge badge-info">
+          <%= vendor.onboarding_tasks_done %> / <%= vendor.onboarding_tasks_total %> done
+        </span>
+      <% end %>
+      <%= icon('chevron-down', class: 'arrow ml-auto') %>
+    </a>
+    <div class="progress m-3 bg-gray">
+      <div class="progress-bar bg-success" style="width: <%= vendor.onboarding_percentage %>%" role="progressbar" aria-valuenow="<%= vendor.onboarding_percentage %>" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div id="onboarding-collapsed" class="collapse" aria-labelledby="onboarding-heading-collapsed">
+    <ul class="list-group list-group-flush m-0 border-top">
+      <% vendor.onboarding_tasks_list.each do |task| %>
+        <li class="list-group-item d-flex align-items-center justify-content-between hover-light">
+          <%= Spree.t("vendor_onboarding_tasks.#{task}") %>
+
+          <% if vendor.onboarding_task_done?(task) %>
+            <span class="badge badge-success">
+              <%= icon 'check', class: 'mr-1' %>
+              Done
+            </span>
+          <% else %>
+            <span class="badge badge-light">
+              <%= icon 'progress', class: 'mr-1' %>
+              Pending
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

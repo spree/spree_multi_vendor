@@ -5,7 +5,9 @@
 .idea
 .localeapp/locales
 .project
+.vscode
 coverage
+default
 Gemfile.lock
 tmp
 nbproject
@@ -17,5 +19,6 @@ spec/dummy
 public/spree
 .ruby-version
 .ruby-gemset
-gemfiles/*.gemfile.lock
 *.gem
+*/*.gem
+.rspec_status

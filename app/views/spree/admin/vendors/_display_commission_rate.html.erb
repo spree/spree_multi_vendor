@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "vendor_commision_rate_#{vendor.id}" do %>
+  <div class="d-flex justify-content-between align-items-center">
+    Commission rate
+    <div class="text-right">
+      <span><%= vendor.platform_fee %>%</span>
+      &nbsp;
+      <%= link_to_with_icon 'edit', Spree.t(:edit), spree.edit_commission_rate_admin_vendor_path(@vendor), \
+        class: 'btn btn-light btn-sm', no_text: true if can?(:admin, Spree::Store)
+      %>
+    </div>
+  <% end %>
+</div>

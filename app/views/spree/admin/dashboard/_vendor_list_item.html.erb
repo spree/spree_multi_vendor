@@ -1,0 +1,7 @@
+<a href="<%= spree.admin_vendor_path(vendor) %>" class="d-flex align-items-center list-group-item justify-content-between text-decoration-none hover-light">
+  <%= vendor_logo(vendor, height: 30) || first_letter_icon(vendor.name, height: 30) %>
+  <span class="ml-2 mr-auto">
+    <%= vendor.display_name.truncate(15) %>
+  </span>
+  <%= vendor_status_badge(vendor) %>
+</a>

@@ -1,25 +1,59 @@
-# Spree Commerce Multi Vendor Marketplace Open Source
+# Spree Multi vendor
 
-This is a Spree Commerce open-source [multi vendor marketplace](https://spreecommerce.org/marketplace-ecommerce/) extension. It's a great starting point if you're building a marketplace on top of [Spree](https://spreecommerce.org). Our goal was flexibility to allow you to tweak it to your needs.
+This is a Multi vendor extension for [Spree Commerce](https://spreecommerce.org), an open source e-commerce platform built with Ruby on Rails.
 
 ## Installation
 
-Please [follow our Multi-Vendor quickstart guide](https://spreecommerce.org/docs/developer/multi-vendor/quickstart).
+1. Add this extension to your Gemfile with this line:
 
-## Community Edition vs Enterprise Edition
+    ```ruby
+    bundle add spree_multi_vendor
+    ```
 
-If you need a product that has all of the marketplace features out of the box, such as supplier onboarding, Stripe Connect payment splitting and payouts, and doesn't require much custom development, we recommend using [Spree Enterprise Edition](https://spreecommerce.org/pricing/).
+2. Run the install generator
 
-### [Multi-vendor Marketplace](https://spreecommerce.org/marketplace-ecommerce/) Enterprise Edition
-Run your own marketplace with multiple suppliers, each with a dedicated supplier dashboard
-- [Marketplace eCommerce Capabilities](https://spreecommerce.org/docs/use-case/marketplace/capabilities)
-- [Marketplace eCommerce Admin Panel](https://spreecommerce.org/docs/use-case/marketplace/admin-dashboard)
-- [Marketplace eCommerce Vendor Panel](https://spreecommerce.org/docs/use-case/marketplace/vendor-dashboard)
-- [Marketplace eCommerce Customer Experience](https://spreecommerce.org/docs/use-case/marketplace/customer-ux)
+    ```ruby
+    bundle exec rails g spree_multi_vendor:install
+    ```
 
-## License
+3. Restart your server
 
-Spree Multi-Vendor extension is free software, and may be redistributed under the terms specified in the
-[LICENCE](LICENSE) file.
+  If your server was running, restart it so that it can find the assets properly.
 
-[LICENSE]: https://github.com/spree-contrib/spree_multi_vendor/blob/main/LICENSE
+## Developing
+
+1. Create a dummy app
+
+    ```bash
+    bundle update
+    bundle exec rake test_app
+    ```
+
+2. Add your new code
+3. Run tests
+
+    ```bash
+    bundle exec rspec
+    ```
+
+When testing your applications integration with this extension you may use it's factories.
+Simply add this require statement to your spec_helper:
+
+```ruby
+require 'spree_multi_vendor/factories'
+```
+
+## Releasing a new version
+
+```shell
+bundle exec gem bump -p -t
+bundle exec gem release
+```
+
+For more options please see [gem-release README](https://github.com/svenfuchs/gem-release)
+
+## Contributing
+
+If you'd like to contribute, please take a look at the
+[instructions](CONTRIBUTING.md) for installing dependencies and crafting a good
+pull request.

@@ -1,0 +1,13 @@
+<%= form_for [:admin, vendor], url: spree.admin_vendor_path(vendor) do |f| %>
+  <% vendor.build_returns_address(country: current_store.default_country) unless vendor.returns_address %>
+  <%= f.fields_for :returns_address do |returns_address_form| %>
+    <%= render 'spree/addresses/form',
+                address_name: 'returns_address',
+                address_form: returns_address_form,
+                address_type: 'shipping',
+                address: vendor.returns_address %>
+  <% end %>
+  <div class="d-flex justify-content-between">
+    <%= turbo_save_button_tag %>
+  </div>
+<% end %>

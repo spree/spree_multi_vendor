@@ -1,0 +1,3 @@
+<%= strip_tags Spree.t('vendor_mailer.onboarding_completed.message',
+               vendor_name: @vendor.name,
+               profile_page: "profile page: #{spree.admin_vendor_url(@vendor, host: current_store.url)}") %>

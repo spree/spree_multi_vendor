@@ -1,0 +1,47 @@
+<%= turbo_frame_tag :dialog_modal_lg do %>
+  <%= form_for [:admin, @vendor] do |f| %>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><%= Spree.t(:edit_branding) %></h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="<%= Spree.t(:close) %>" />
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <%= f.label :about, class: 'form-label' %>
+          <p class="form-text text-muted">
+            Please share a little about your shop and what you sell.
+          </p>
+          <div class="trix-container">
+            <%= f.rich_text_area :about, class: 'overflow-auto w-100', style: 'height: 100px' %>
+          </div>
+        </div>
+
+        <div class="form-group mb-4">
+          <%= f.label :logo,  class: 'form-label' %>
+          <p class="form-text text-muted">
+            doesn't have to be square
+          </p>
+          <%= render 'active_storage/upload_form', form: f, field_name: :logo, width: 300, height: 150 %>
+        </div>
+        <div class="form-group mb-4">
+          <%= f.label :square_logo, class: 'form-label' %>
+          <p class="form-text text-muted">
+            We recommend a square logo that is at least 150px wide.
+          </p>
+          <%= render 'active_storage/upload_form', form: f, field_name: :square_logo, crop: true, width: 150, height: 150 %>
+        </div>
+        <div class="form-group mb-0">
+          <%= f.label :cover_photo, class: 'form-label' %>
+          <p class="form-text text-muted">
+            If you have cover photo on your Facebook page, you can use that.
+          </p>
+          <%= render 'active_storage/upload_form', form: f, field_name: :cover_photo, width: 1920, height: 1080 %>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-light" data-dismiss="modal"><%= Spree.t('actions.discard') %></button>
+        <%= turbo_save_button_tag Spree.t('actions.update')  %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

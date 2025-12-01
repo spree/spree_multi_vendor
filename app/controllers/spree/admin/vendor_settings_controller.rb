@@ -1,33 +1,35 @@
 module Spree
   module Admin
-    class VendorSettingsController < Spree::Admin::BaseController
-      before_action :authorize
-      before_action :load_vendor
+    class VendorSettingsController < BaseController
+      include Spree::Admin::SettingsConcern
+
+      before_action :require_vendor
+
+      def edit
+      end
 
       def update
-        if vendor_params[:image]
-          @vendor.create_image(attachment: vendor_params[:image])
-        end
-        if @vendor.update(vendor_params.except(:image))
-          redirect_to admin_vendor_settings_path
+        if current_vendor.update(permitted_params)
+          redirect_to spree.edit_admin_vendor_settings_path, notice: flash_message_for(current_vendor, :successfully_updated)
         else
-          render :edit
+          render :edit, status: :unprocessable_entity
         end
       end
 
       private
 
-      def authorize
-        authorize! :manage, :vendor_settings
+      def permitted_params
+        params.require(:vendor).permit(:name, :billing_email,
+                                        billing_address_attributes: permitted_address_attributes,
+                                        returns_address_attributes: permitted_address_attributes)
       end
 
-      def load_vendor
-        @vendor = current_spree_vendor
-        raise ActiveRecord::RecordNotFound unless @vendor
+      def model_class
+        Spree::Vendor
       end
 
-      def vendor_params
-        params.require(:vendor).permit(Spree::PermittedAttributes.vendor_attributes)
+      def require_vendor
+        redirect_to spree.admin_dashboard_path if current_vendor.nil?
       end
     end
   end

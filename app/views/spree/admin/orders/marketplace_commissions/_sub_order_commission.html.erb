@@ -1,0 +1,14 @@
+<%= marketplace_commission.display_amount %>
+(<%= number_to_percentage(marketplace_commission.rate_after_discount) %>)
+
+<% if marketplace_commission.discounted? %>
+  <span class="text-muted small d-block">
+    <%= Spree.t(:original_rate) %>:
+    <%= number_to_percentage(marketplace_commission.rate) %>
+  </span>
+
+  <span class="text-muted small d-block">
+    <%= Spree.t(:discount) %>:
+    <%= marketplace_commission.display_discount %>
+  </span>
+<% end %>

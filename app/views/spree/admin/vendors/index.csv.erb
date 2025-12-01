@@ -1,0 +1,46 @@
+<%- headers = [
+  'Name',
+  'Status',
+  'Onboarding progress',
+  'Integration',
+  'Products (All)',
+  'Live Products',
+  'Revenue',
+  'Commission (Rate)',
+  'Commission (Total)',
+  'Join Date',
+  'Contact Person Email',
+  'Billing name',
+  'Billing email',
+  'Returns Address Name',
+  'Returns Address Street',
+  'Returns Address City',
+  'Returns Address Postal Code',
+  'Returns Address State',
+  'Returns Address Country'
+  ]
+-%>
+<%= CSV.generate_line(headers).strip %>
+<%- @vendors.each do |vendor| -%>
+<%= CSV.generate_line([
+  vendor.display_name,
+  vendor.state,
+  number_to_percentage(vendor.onboarding_percentage),
+  vendor.respond_to?(:external_store) ? vendor.external_store&.display_name : '',
+  vendor.products_count,
+  vendor.products.active.count,
+  vendor.sales_total,
+  number_to_percentage(vendor.platform_fee),
+  vendor.commission_total,
+  vendor.created_at,
+  vendor.contact_person_email,
+  vendor.billing_address&.company,
+  vendor.billing_email,
+  vendor.returns_address&.company,
+  vendor.returns_address&.street,
+  vendor.returns_address&.city,
+  vendor.returns_address&.zipcode,
+  vendor.returns_address&.state_text,
+  vendor.returns_address&.country_iso,
+  ]).strip.html_safe %>
+<%- end -%>

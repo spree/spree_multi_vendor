@@ -1,11 +1,7 @@
 module SpreeMultiVendor
-  VERSION = '2.5.0'
+  VERSION = '3.0.0.alpha'.freeze
 
-  module_function
-
-  # Returns the version of the currently loaded SpreeMultiVendor as a
-  # <tt>Gem::Version</tt>.
-  def version
-    Gem::Version.new VERSION
+  def gem_version
+    Gem::Version.new(VERSION)
   end
 end

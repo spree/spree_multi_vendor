@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  <%= page_header_back_button spree.admin_vendors_url, @vendor unless current_vendor.present? %>
+  <%= @vendor.display_name %>
+  <%= vendor_status_badge(@vendor, class: 'small d-none d-lg-inline') %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <% if @vendor.can_approve? %>
+    <%= link_to_with_icon 'check', Spree.t('actions.approve'), spree.approve_admin_vendor_path(@vendor), { class: "btn btn-primary mr-2", data: { turbo_method: :patch, turbo_confirm: Spree.t(:are_you_sure) } } if can?(:approve, @vendor) %>
+  <% end %>
+<% end if can?(:edit, @vendor) && controller_name == 'vendors' %>
+
+<% content_for :page_actions_dropdown do %>
+  <% if @vendor.can_reject? %>
+    <%= link_to_with_icon 'ban', Spree.t('actions.reject'), spree.reject_admin_vendor_path(@vendor), { class: "dropdown-item", data: { turbo_method: :patch, turbo_confirm: Spree.t(:are_you_sure) } } if can?(:reject, @vendor) %>
+  <% end %>
+  <% if @vendor.can_suspend? %>
+    <%= link_to_with_icon 'clock-pause', Spree.t('actions.suspend'), spree.suspend_admin_vendor_path(@vendor), { class: "dropdown-item", data: { turbo_method: :patch, turbo_confirm: Spree.t(:are_you_sure) } } if can?(:suspend, @vendor) %>
+  <% end %>
+  <% if can?(:delete, @vendor) && @vendor.can_be_deleted? %>
+    <%= link_to_with_icon 'archive', Spree.t('actions.archive'), spree.archive_admin_vendor_path(@vendor), { class: "dropdown-item", data: { turbo_method: :patch, turbo_confirm: Spree.t(:are_you_sure) } } %>
+  <% end %>
+  <div class="dropdown-divider"></div>
+<% end if can?(:edit, @vendor) && controller_name == 'vendors' %>

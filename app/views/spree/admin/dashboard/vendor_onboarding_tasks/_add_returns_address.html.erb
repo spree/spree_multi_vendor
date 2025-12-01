@@ -1,0 +1,20 @@
+<div class="alert alert-info">
+  We need to know where to send returns
+</div>
+<%= turbo_frame_tag :add_returns_address, class: 'w-100' do %>
+  <% unless done %>
+    <%= render 'spree/admin/vendors/forms/returns_address', vendor: vendor %>
+  <% else %>
+    <%= render 'spree/admin/shared/address', address: vendor.returns_address %>
+    <% if vendor.returns_address.latitude.present? && vendor.returns_address.longitude.present? %>
+      <div class="rounded w-100 overflow-hidden mt-3">
+        <%= js_map [{
+          latitude: vendor.returns_address.latitude,
+          longitude: vendor.returns_address.longitude,
+          label: vendor.name,
+        }], zoom: 15, controls: true, height: '300px' %>
+      </div>
+    <% end %>
+    <%= link_to_with_icon 'edit', Spree.t(:edit), spree.edit_returns_address_admin_vendor_path(vendor), class: 'btn btn-light mt-3' %>
+  <% end %>
+<% end %>

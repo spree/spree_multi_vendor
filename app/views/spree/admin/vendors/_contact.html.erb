@@ -1,0 +1,7 @@
+<li class="list-group-item hover-light d-flex align-items-center">
+  <%= render_avatar(contact, width: 48, height: 48, class: 'avatar mb-0 m-1 rounded-lg float-left mr-3') %>
+  <div>
+    <strong><%= contact.name&.truncate(40) %></strong>
+    <span class="d-none d-lg-block text-muted"><%= contact.email.truncate(40) %></span>
+  </div>
+</li>

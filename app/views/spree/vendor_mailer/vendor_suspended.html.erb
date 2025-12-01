@@ -1,0 +1,11 @@
+<h1>
+  <%= Spree.t('vendor_mailer.greeting', vendor_name: @vendor.name) %>
+</h1>
+<p>
+  <%= Spree.t('vendor_mailer.suspended_email.message', store_email: current_store.mail_from_address) %>
+</p>
+<p>
+  <%= Spree.t('vendor_mailer.thanks') %>
+  <br />
+  <%= current_store.name %>
+</p>

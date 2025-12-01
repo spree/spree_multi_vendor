@@ -1,0 +1,16 @@
+<% if f.object.vendor.present? && can?(:manage_commission, f.object) %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title"><%= Spree.t(:platform_fee) %></h5>
+    </div>
+    <div class="card-body">
+      <div class="form-group">
+        <%= f.label :platform_fee %>
+        <div class="form-control d-flex align-items-center py-0 focus-border focus-shadow">
+          <%= f.text_field :platform_fee, value: number_with_precision(f.object.platform_fee, precision: 2), class: 'form-control-plaintext pl-0' %>
+          <%= f.label :platform_fee, '%', { class: 'form-control-plaintext w-auto border-left' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

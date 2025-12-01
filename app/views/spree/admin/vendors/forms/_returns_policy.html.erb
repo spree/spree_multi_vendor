@@ -1,0 +1,10 @@
+<%= form_for [:admin, vendor], url: spree.admin_vendor_path(vendor) do |f| %>
+  <div class="form-group">
+    <div class="trix-container">
+      <%= f.rich_text_area :returns_policy, class: 'overflow-auto w-100', style: 'height: 300px' %>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <%= turbo_save_button_tag %>
+  </div>
+<% end %>

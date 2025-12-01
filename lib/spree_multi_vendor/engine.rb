@@ -1,5 +1,3 @@
-require_relative 'configuration'
-
 module SpreeMultiVendor
   class Engine < Rails::Engine
     require 'spree/core'
@@ -15,8 +13,12 @@ module SpreeMultiVendor
       SpreeMultiVendor::Config = SpreeMultiVendor::Configuration.new
     end
 
-    config.after_initialize do
-      ::Spree::PermittedAttributes.product_attributes << :vendor_id if SpreeMultiVendor::Config[:vendorized_models].include?('product')
+    initializer 'spree_multi_vendor.assets' do |app|
+      if app.config.respond_to?(:assets)
+        app.config.assets.paths << root.join('app/javascript')
+        app.config.assets.paths << root.join('vendor/javascript')
+        app.config.assets.precompile += %w[spree_multi_vendor_manifest]
+      end
     end
 
     def self.activate
@@ -25,10 +27,6 @@ module SpreeMultiVendor
       end
     end
 
-    def self.api_v1_available?
-      @@api_v1_available ||= Gem::Specification.find_all_by_name('spree_api_v1').any?
-    end
-
-    config.to_prepare &method(:activate).to_proc
+    config.to_prepare(&method(:activate).to_proc)
   end
 end

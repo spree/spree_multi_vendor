@@ -1,0 +1,13 @@
+<%= form_for [:admin, vendor], url: spree.admin_vendor_path(vendor) do |f| %>
+  <% vendor.build_billing_address(country: current_store.default_country) unless vendor.billing_address %>
+  <%= f.fields_for :billing_address do |billing_address_form| %>
+    <%= render 'spree/addresses/form',
+                address_name: 'billing_address',
+                address_form: billing_address_form,
+                address_type: 'billing',
+                address: vendor.billing_address %>
+  <% end %>
+  <div class="d-flex justify-content-between">
+    <%= turbo_save_button_tag %>
+  </div>
+<% end %>

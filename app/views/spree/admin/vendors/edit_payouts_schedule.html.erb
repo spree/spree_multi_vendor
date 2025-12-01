@@ -1,0 +1,19 @@
+<%= turbo_frame_tag "vendor_payouts_schedule_#{@vendor.id}" do %>
+  <%= form_for [:admin, @vendor] do |f| %>
+    <div class="form-group">
+      <%= f.select :payouts_schedule_interval,
+        options_for_select(stripe_vendor_payouts_schedule_interval_options, @vendor.stripe_account.payouts_interval),
+        {},
+        { class: 'custom-select' } %>
+      <%= f.error_message_on :payouts_schedule_interval %>
+      <p class="form-text text-muted mt-2">
+        Marketplace default interval is set in
+        <%= link_to Spree.t(:general_settings), spree.edit_admin_store_path(section: 'general-settings', anchor: 'partners-payouts', target: '_blank'), data: { turbo_frame: '_top' } %>
+      </p>
+    </div>
+    <div class="d-flex">
+      <%= turbo_save_button_tag %>
+      <%= link_to Spree.t('actions.discard'), spree.admin_vendor_path(@vendor, display_payouts_schedule: true), class: 'btn btn-light ml-2' %>
+    </div>
+  <% end %>
+<% end if current_store.respond_to?(:stripe_gateway) && current_store.stripe_gateway.present? && @vendor.respond_to?(:stripe_account) && @vendor.stripe_account.present? %>

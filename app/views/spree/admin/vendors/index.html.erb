@@ -1,77 +1,55 @@
 <% content_for :page_title do %>
-  <%= plural_resource_name(Spree::Vendor) %>
+  <%= Spree.t(:vendors) %>
 <% end %>
 
 <% content_for :page_actions do %>
-  <%= button_link_to Spree.t(:new_vendor), new_object_url, { class: "btn-success", icon: 'add', id: 'admin_new_vendor' } %>
-<% end if can?(:create, Spree::Vendor) %>
+  <%= link_to spree.admin_vendors_path(q: params[:q].to_unsafe_hash, page: params[:page], per_page: params[:per_page], format: :csv), class: 'btn btn-light bg-transparent with-tip d-none d-lg-inline-flex', title: 'Export Vendors to a CSV file. To filter specific Vendors use "Filters" or status tabs before clicking this button' do %>
+    <%= icon 'table-export' %>
+    <%= Spree.t(:export) %>
+  <% end %>
 
-<% content_for :table_filter do %>
-  <div data-hook="admin_vendors_index_search">
-    <%= search_form_for [:admin, @search] do |f| %>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <%= label_tag :q_name_cont, Spree.t(:name) %>
-            <%= f.text_field :name_cont, tabindex: 1, class: "form-control js-quick-search-target" %>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <%= label_tag :q_state_in, Spree.t(:state) %>
-            <%= f.select :state_in, options_for_select(vendor_state_options), { multiple: 'please select' }, class: 'select2', multiple: true %>
-          </div>
-        </div>
-      </div>
-      <div data-hook="admin_vendors_index_search_buttons" class="form-actions">
-        <%= button Spree.t(:filter_results), 'search' %>
-      </div>
-    <% end %>
-  </div>
+  <%= invite_vendor_button if can?(:create, Spree::Vendor) %>
 <% end %>
 
-<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
+<div class="card-lg p-0">
+  <%= render "filters" %>
 
-<% if @vendors.any? %>
-  <table class="table border rounded sortable" data-hook="vendors_table" data-sortable-link="<%= update_positions_admin_vendors_url %>">
-    <thead>
-      <tr data-hook="vendors_header">
-        <th>
-          <%= Spree.t(:user) %>
-        </th>
-        <th>
-          <%= sort_link @search, :name, I18n.t(:name, scope: 'activerecord.attributes.spree/vendor') %>
-        </th>
-        <th>
-          <%= sort_link @search, :state, I18n.t(:state, scope: 'activerecord.attributes.spree/vendor') %>
-        </th>
-        <th class="actions"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @vendors.each do |vendor| %>
-        <tr id="<%= spree_dom_id vendor %>" data-hook="vendors_row">
-          <td>
-            <%= vendor.users.first.email rescue nil %>
-          </td>
-          <td>
-            <%= vendor.name %>
-          </td>
-          <td>
-            <span class="label label-<%= vendor.state.downcase %>"><%= vendor.state.humanize.downcase %></span>
-            <span class="icon icon-filter filterable js-add-filter" data-ransack-field="q_state_eq" data-ransack-value="<%= vendor.state %>"></span>
-          </td>
-          <td class="actions actions-2 text-right">
-            <%= link_to_edit vendor, no_text: true, class: 'edit' if can?(:edit, vendor) %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="alert alert-info alpha twelve columns no-objects-found">
-    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Vendor)) %>
-  </div>
-<% end %>
-
-<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
+  <% if @vendors.any? %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead class="text-muted">
+          <th>
+            <%= sort_link @search, :name, I18n.t(:name, scope: "activerecord.attributes.spree/vendor") %>
+          </th>
+          <th>
+            <%= sort_link @search, :state, I18n.t(:state, scope: "activerecord.attributes.spree/vendor") %>
+          </th>
+          <th>
+            Onboarding progress
+          </th>
+          <th>
+            Integration
+          </th>
+          <th>
+            <%= sort_link @search, :products_count, Spree.t(:products_count) %>
+          </th>
+          <th>
+            <%= sort_link @search, :sales_total, Spree.t(:sales_total) %>
+          </th>
+          <th>
+            <%= sort_link @search, :commission_total, Spree.t(:commission_total) %>
+          </th>
+          <th>
+            <%= sort_link @search, :created_at, Spree.t(:created_at) %>
+          </th>
+        </thead>
+        <tbody>
+          <%= render partial: "spree/admin/vendors/vendor", collection: @vendors, cached: spree_base_cache_scope %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <%= render "spree/admin/shared/no_resource_found", new_object_url: nil %>
+  <% end %>
+  <%= render partial: "spree/admin/shared/index_table_options", locals: { collection: @collection } if @vendors.any? %>
+</div>

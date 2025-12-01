@@ -1,0 +1,1 @@
+<%= rule_form.select :value, Spree::Vendor.approved.pluck(:name, :id), { include_blank: true }, data: { controller: 'autocomplete-select' } %>

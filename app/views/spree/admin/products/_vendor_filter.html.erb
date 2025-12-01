@@ -1,0 +1,19 @@
+<%= f.hidden_field :vendor_id_eq, value: @vendor.id if @vendor.present? %>
+
+<% unless current_vendor.present? %>
+  <div class="form-group d-vendor">
+    <%= f.label :vendor_id_in, Spree.t(:vendor) %>
+    <% @vendors = Spree::Vendor.where(id: params[:q].presence&.[](:vendor_id_in)).pluck(:name, :id) if params[:q].presence&.[](
+      :vendor_id_in,
+    ) %>
+    <%= tom_select_tag "q[vendor_id_in]",
+    preloaded_options: @vendors,
+    multiple: true,
+    active_option: params[:q].presence&.[](:vendor_id_in),
+    url: select_options_admin_vendors_path(format: :json),
+    select_class: "w-100",
+    select_data: {
+      filters_target: "input",
+    } %>
+  </div>
+<% end %>

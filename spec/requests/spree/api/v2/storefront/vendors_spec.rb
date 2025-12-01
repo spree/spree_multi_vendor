@@ -1,117 +1,79 @@
 require 'spec_helper'
 
-describe 'API V2 Storefront Vendor Spec', type: :request do
-
-  let!(:vendor_image) { create(:vendor_image) }
-  let!(:vendor) { create(:active_vendor, name: 'vendor', image: vendor_image) }
-  let!(:product) { create(:product, vendor: vendor) }
-  let!(:vendors) { 
-    create_list(:active_vendor_list, 30)}
-
+RSpec.describe 'API V2 Storefront Vendor Spec', type: :request do
   describe 'vendors#show' do
-    context 'with invalid slug param' do
+    let!(:vendor) { create(:approved_vendor, :with_logo, :with_cover_photo, about: 'About section') }
+    let!(:product) { create(:product, vendor: vendor) }
+
+    context 'with invalid vendor id' do
       before { get '/api/v2/storefront/vendors/vendor1' }
 
       it_behaves_like 'returns 404 HTTP status'
     end
 
-    context 'with valid slug param' do
+    context 'with valid vendor id' do
+      let(:response_data) { json_response['data'] }
+
+      before { get "/api/v2/storefront/vendors/#{vendor.id}" }
+
+      it_behaves_like 'returns 200 HTTP status'
+
+      it 'returns vendor valid JSON response' do
+        expect(response_data['id']).to eq(vendor.id.to_s)
+        expect(response_data['type']).to eq('vendor')
+        expect(response_data['attributes']).to include(
+          'name' => vendor.name,
+          'email' => vendor.contact_person_email,
+          'about_us' => 'About section'
+        )
+        expect(response_data['attributes']['logo_url']).to be_present
+        expect(response_data['attributes']['cover_photo_url']).to be_present
+      end
+    end
+
+    context 'with vendor slug' do
       before { get "/api/v2/storefront/vendors/#{vendor.slug}" }
 
       it_behaves_like 'returns 200 HTTP status'
-
-      it 'returns one vendor' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.count).to eq 1
-        expect(json_response['data']['type']).to eq('vendor')
-      end
-
-      it 'does not return included' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data')
-      end
-    end
-
-    context 'with products and images included' do
-      before { get "/api/v2/storefront/vendors/#{vendor.slug}?include=products,image" }
-
-      it_behaves_like 'returns 200 HTTP status'
-
-      it 'returns product information' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data', 'included')
-        expect(json_response['included'].first['id']).to eq(product.id.to_s)
-      end
-
-      it 'returns image information' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data', 'included')
-
-        expect(json_response['included'].second['id']).to eq(vendor_image.id.to_s)
-      end
     end
   end
 
-
   describe 'vendors#index' do
+    let!(:vendor) { create(:approved_vendor, :with_logo, :with_cover_photo, about: 'About section') }
+    let!(:vendors) { create_list(:approved_vendor, 10) }
+    let(:params) { {} }
+
+    before { get '/api/v2/storefront/vendors', params: params }
+
     context 'returns vendors list' do
-
-      it 'must return a list of vendor paged' do
-        get "/api/v2/storefront/vendors"
-        expect(response).to have_http_status(:ok)
-        json_response = JSON.parse(response.body)
-        expect(json_response)
-        expect(json_response['data'].count).to eq (25)
-      end
-
-      it 'can request different pages' do
-        get "/api/v2/storefront/vendors?page=2"
-        expect(response).to have_http_status(:ok)
-        json_response = JSON.parse(response.body)
-        expect(json_response)
-        expect(json_response['data'].count).to eq (6)
-        
-      end
-
-      it 'can control paging size' do
-        get "/api/v2/storefront/vendors?page=2&per_page=10"
-        expect(response).to have_http_status(:ok)
-        json_response = JSON.parse(response.body)
-        expect(json_response)
-        expect(json_response['data'].count).to eq (10)
-      end
-
-
-      it 'returns data type vendor' do
-        get "/api/v2/storefront/vendors"
-        json_response = JSON.parse(response.body)
-        expect(json_response)
-        expect(json_response['data'][0]['type']).to eq('vendor')
-      end
-
-      it 'does not return included' do
-        get "/api/v2/storefront/vendors"
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data', "links", "meta")
-      end
-    end
-
-    context 'with products and images included' do
-      before { get "/api/v2/storefront/vendors?include=products,image" }
+      let(:vendor_data) { json_response['data'].find { |data| data['id'] == vendor.id.to_s } }
 
       it_behaves_like 'returns 200 HTTP status'
 
-      it 'returns product information' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data', 'included', "links", "meta")
-        expect(json_response['included'].first['id']).to eq(product.id.to_s)
+      it 'with all vendors' do
+        expect(json_response['data'].count).to eq (11)
       end
 
-      it 'returns image information' do
-        json_response = JSON.parse(response.body)
-        expect(json_response.keys).to contain_exactly('data', 'included',"links", "meta")
+      it 'returns vendor valid JSON response' do
+        expect(vendor_data['id']).to eq(vendor.id.to_s)
+        expect(vendor_data['type']).to eq('vendor')
+        expect(vendor_data['attributes']).to include(
+          'name' => vendor.name,
+          'email' => vendor.contact_person_email,
+          'about_us' => 'About section'
+        )
+        expect(vendor_data['attributes']['logo_url']).to be_present
+        expect(vendor_data['attributes']['cover_photo_url']).to be_present
 
-        expect(json_response['included'].second['id']).to eq(vendor_image.id.to_s)
+        expect(vendor_data['relationships']['metafields']).to eq('data' => [])
+        expect(vendor_data['relationships']['policies']).to eq(
+          'data' => [
+            {
+              'id' => vendor.policies.first.id.to_s,
+              'type' => 'policy'
+            }
+          ]
+        )
       end
     end
   end

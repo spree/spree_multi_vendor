@@ -1,0 +1,22 @@
+<% vendor.onboarding_tasks_list.each_with_index do |task, index| %>
+  <% done = vendor.onboarding_task_done?(task) %>
+  <% onboarding_error = params[:error].to_s == task.to_s %>
+
+  <div class="collapsable-card mb-3">
+    <h5 class="card-header border-0 p-0 h-auto">
+      <a class="<%= 'collapsed' unless onboarding_error %> text-decoration-none d-flex align-items-center p-4 text-dark font-weight-normal w-100 card-title" data-toggle="collapse" href="#collapse<%= index %>-collapsed" aria-expanded="true" aria-controls="collapse<%= index %>-collapsed" id="heading<%= index %>-collapsed">
+        <%= onboarding_check_circle(done) %>
+        <span class="ml-3"><%= Spree.t("vendor_onboarding_tasks.#{task}") %></span>
+        <%= icon('chevron-down', class: 'arrow ml-auto') %>
+      </a>
+    </h5>
+    <div id="collapse<%= index %>-collapsed" class="collapse <%= 'show' if onboarding_error %>" aria-labelledby="heading<%= index %>-collapsed">
+      <div class="card-body">
+        <%= render "spree/admin/dashboard/vendor_onboarding_tasks/#{task}",
+        done: vendor.onboarding_task_done?(task),
+        pending: vendor.onboarding_task_pending?(task),
+        vendor: vendor %>
+      </div>
+    </div>
+  </div>
+<% end %>

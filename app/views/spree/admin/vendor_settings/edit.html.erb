@@ -1,45 +1,69 @@
-<% content_for :page_title do %>
-  <%= @vendor.name %>
+<%= content_for :page_title do %>
+  <%= Spree.t(:settings) %>
 <% end %>
 
-<%= form_for [:admin, @vendor], url: admin_vendor_settings_url do |f| %>
-  <fieldset>
-    <%= render partial: 'spree/admin/shared/error_messages', locals: { target: @vendor } %>
-    <div class="form-group">
-      <%= f.field_container :name do %>
-        <%= f.label :name %>
-        <%= f.text_field :name, class: 'form-control' %>
-      <% end %>
+<%= content_for :page_actions do %>
+  <%= turbo_save_button_tag Spree.t('actions.update'), form: 'edit_vendor_settings' %>
+<% end %>
+
+<%= form_with model: current_vendor, url: spree.admin_vendor_settings_path, id: 'edit_vendor_settings' do |f| %>
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title">
+            <%= Spree.t(:general_settings) %>
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :billing_email %>
+            <%= f.email_field :billing_email, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title">
+            <%= Spree.t(:billing_address) %>
+          </h5>
+        </div>
+        <div class="card-body">
+          <% f.object.build_billing_address(country: current_store.default_country) unless f.object.billing_address %>
+          <%= f.fields_for :billing_address do |billing_address_form| %>
+            <%= render 'spree/addresses/form',
+                        address_name: 'billing_address',
+                        address_form: billing_address_form,
+                        address_type: 'billing',
+                        address: f.object.billing_address,
+                        available_countries: Spree::Country.all %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">
+            <%= Spree.t(:returns_address) %>
+          </h5>
+        </div>
+        <div class="card-body">
+          <% f.object.build_returns_address(country: current_store.default_country) unless f.object.returns_address %>
+          <%= f.fields_for :returns_address do |returns_address_form| %>
+            <%= render 'spree/addresses/form',
+                        address_name: 'returns_address',
+                        address_form: returns_address_form,
+                        address_type: 'shipping',
+                        address: f.object.returns_address,
+                        available_countries: Spree::Country.all %>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <%= f.field_container :image do %>
-        <%= f.label :image %>
-        <%= f.file_field :image %>
-        <%= image_tag main_app.url_for(@vendor.image.url(:small)) if @vendor.image %>
-      <% end %>
-    </div>
-    <div class="form-group">
-      <%= f.field_container :about_us do %>
-        <%= f.label :about_us %>
-        <%= f.text_area :about_us, class: 'form-control' %>
-      <% end %>
-    </div>
-    <div class="form-group">
-      <%= f.field_container :contact_us do %>
-        <%= f.label :contact_us %>
-        <%= f.text_area :contact_us, class: 'form-control' %>
-      <% end %>
-    </div>
-    <div class="form-group">
-      <%= f.field_container :notification_email do %>
-        <%= f.label :notification_email %>
-        <%= f.email_field :notification_email, class: 'form-control' %>
-      <% end %>
-    </div>
-    <div class="form-actions" data-hook="buttons">
-      <%= button Spree.t('actions.update'), 'save' %>
-      <span class="or"><%= Spree.t(:or) %></span>
-      <%= button_link_to Spree.t('actions.cancel'), admin_vendor_settings_url, icon: 'delete' %>
-    </div>
-  </fieldset>
+  </div>
 <% end %>

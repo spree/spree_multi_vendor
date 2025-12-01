@@ -1,0 +1,9 @@
+<div class="text-muted p-5 d-flex align-items-center w-100 justify-content-center">
+  <% if current_vendor %>
+    <% if current_vendor.external_store&.present? %>
+      Please give us a moment to sync your products. Time needed for this depends on the number of your products.
+    <% end %>
+  <% else %>
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Product)) %>.
+  <% end %>
+</div>

@@ -1,0 +1,27 @@
+<% if turbo_frame_request? %>
+  <%= render 'spree/admin/vendors/display_commission_rate', vendor: @vendor if params[:display_commission_rate] %>
+  <%= render 'spree/admin/vendors/display_payouts_schedule', vendor: @vendor if params[:display_payouts_schedule] %>
+<% else %>
+  <%= render 'header' %>
+
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <%= render 'spree/admin/vendors/card' %>
+      <%= render 'spree/admin/vendors/tabs', vendor: @vendor %>
+    </div>
+
+    <div class="col-lg-4">
+      <%= render 'spree/admin/vendors/onboarding_status', vendor: @vendor %>
+      <%= render 'spree/admin/vendors/totals', vendor: @vendor %>
+      <%= render 'spree/admin/vendors/stripe' %>
+      <%= render 'spree/admin/vendors/returns_address' %>
+      <%= render 'spree/admin/vendors/billing' %>
+    </div>
+  </div>
+<% end %>
+
+<style>
+  .d-vendor {
+    display: none;
+  }
+</style>

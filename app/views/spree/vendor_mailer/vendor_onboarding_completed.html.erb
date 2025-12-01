@@ -1,0 +1,6 @@
+<p>Hi <%= params[:recipient].first_name %>!</p>
+<p>
+  <%= Spree.t('vendor_mailer.onboarding_completed.message',
+             vendor_name: @vendor.name,
+             profile_page: link_to('profile page', spree.admin_vendor_url(@vendor, host: current_store.url))).html_safe %>
+</p>

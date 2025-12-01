@@ -1,0 +1,6 @@
+<% if defined?(current_vendor) && current_vendor %>
+
+<% else %>
+  <%= render 'updater' %>
+  <%= render 'store_preview' %>
+<% end %>

@@ -1,0 +1,17 @@
+<div class="date-range-filter col-12 col-lg-6">
+  <div class="form-group">
+    <%= label_tag :q_created_at_gt, Spree.t(:date_range) %>
+    <div class="row pb-0">
+      <div class="col-12 col-md-6 mb-3 mb-md-0">
+        <%= form.date_field :created_at_gt, class: 'form-control', value: params.dig(:q, :created_at_gt), max: params.dig(:q, :created_at_lt), data: {
+                            filters_target: :input,
+                          } %>
+      </div>
+      <div class="col-12 col-md-6 mt-3 mt-md-0">
+        <%= form.date_field :created_at_lt, class: 'form-control', value: params.dig(:q, :created_at_lt), data: {
+                            filters_target: :input,
+                          } %>
+      </div>
+    </div>
+  </div>
+</div>

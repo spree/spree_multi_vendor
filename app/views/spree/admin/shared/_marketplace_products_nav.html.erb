@@ -1,0 +1,3 @@
+<% if defined?(Spree::ExternalCategory) && can?(:manage, Spree::ExternalCategory) %>
+  <%= nav_item('Category mapper', spree.admin_external_categories_path) %>
+<% end %>

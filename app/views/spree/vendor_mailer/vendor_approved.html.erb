@@ -1,0 +1,25 @@
+<% if @vendor.users.include?(params[:recipient]) %>
+  <h1>
+    <%= Spree.t('vendor_mailer.greeting', vendor_name: @vendor.name) %>
+  </h1>
+  <p>
+    <%= Spree.t('vendor_mailer.approved_email.message', vendor_name: @vendor.name, store_name: current_store.name).html_safe %>
+  </p>
+  <p>
+    <%= link_to 'Go to Dashboard', spree.admin_dashboard_url(host: @vendor.store.url) %>
+  </p>
+  <p>
+    <%= Spree.t('vendor_mailer.thanks') %>
+    <br />
+    <%= current_store.name %>
+  </p>
+<% else %>
+  <p>Hi <%= params[:recipient].first_name %>!</p>
+  <p>
+    <%= Spree.t('vendor_mailer.approved_email_to_marketplace_owners.message', vendor_name: @vendor.name, store_name: current_store.name).html_safe %>
+  </p>
+  <p>
+    <%= Spree.t('vendor_mailer.approved_email_to_marketplace_owners.link_to_profile_page',
+               profile_page: link_to('profile page', spree.admin_vendor_url(@vendor, host: current_store.url))).html_safe %>
+  </p>
+<% end %>

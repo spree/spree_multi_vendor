@@ -1,0 +1,7 @@
+<%= link_to spree.admin_vendor_path(vendor), class: 'd-flex rounded-lg hover-light py-1 px-2 align-items-center text-dark', data: { 'turbo-frame': '_top' } do %>
+  <%= vendor_logo(vendor, height: 30) %>
+  <span class="mx-2">
+    <%= vendor.name %>
+  </span>
+  <%= vendor_status_badge(vendor) %>
+<% end %>

@@ -1,32 +1,50 @@
 require 'spec_helper'
 
-describe Spree::LineItem do
-  let(:vendor) { create(:vendor) }
-
-  describe '#vendor' do
-    context 'vendorized product' do
-      let(:product) { create(:product, vendor: vendor) }
-      let(:line_item) { build(:line_item, product: product, variant: product.default_variant) }
-
-      it { expect(line_item.vendor).not_to be_nil }
-      it { expect(line_item.vendor).to eq(product.vendor) }
+RSpec.describe Spree::LineItem, type: :model do
+  context 'vendorized line item' do
+    it 'assigns vendor from product' do
+      product = create(:product_in_stock, vendor: create(:approved_vendor))
+      line_item = create(:line_item, product: product)
+      expect(line_item.vendor).to eq(product.vendor)
     end
+  end
 
-    context 'vendorized variant' do
-      let(:product) { create(:product) }
-      let(:variant) { create(:variant, vendor: vendor, product: product) }
-      let(:line_item) { build(:line_item, product: product, variant: variant) }
+  context 'scope' do
+    context 'platform_feeable' do
+      subject { described_class.platform_feeable }
+
+      let(:product) { create(:product_in_stock, vendor: vendor) }
+      let(:vendor) { create(:approved_vendor) }
+      let(:line_item) { create(:line_item, product: product) }
 
       before do
-        SpreeMultiVendor::Config[:vendorized_models] = ['variant']
+        line_item.update_column(:pre_tax_amount, pre_tax_amount)
       end
 
-      after do
-        SpreeMultiVendor::Config[:vendorized_models] = SpreeMultiVendor::Configuration::DEFAULT_VENDORIZED_MODELS
+      context 'if item belongs to the vendor and has positive pre_tax_amount' do
+        let(:pre_tax_amount) { 1.0 }
+
+        it 'returns an item' do
+          expect(subject).to eq [line_item]
+        end
       end
 
-      it { expect(line_item.vendor).not_to be_nil }
-      it { expect(line_item.vendor).to eq(variant.vendor) }
+      context 'if item belongs to the vendor, but has zero pretax_amount' do
+        let(:pre_tax_amount) { 0.0 }
+
+        it 'does not return the item' do
+          expect(subject).to be_empty
+        end
+      end
+
+      context 'if does not belong to the vendor, but has positive pretax_amount' do
+        let(:pre_tax_amount) { 1.0 }
+        let(:vendor) { nil }
+
+        it 'does not return the item' do
+          expect(subject).to be_empty
+        end
+      end
     end
   end
 end

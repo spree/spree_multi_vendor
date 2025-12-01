@@ -1,0 +1,59 @@
+<% if defined?(SpreeStripe::Gateway) %>
+  <div class="collapsable-card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <a class="w-100 collapsed text-decoration-none d-flex align-items-center text-dark font-weight-normal" data-toggle="collapse" href="#payments-address--collapsed" aria-expanded="true" aria-controls="payments-address--collapsed" id="payments-address--heading-collapsed">
+        <h5 class="card-title mb-0">
+          Payments & Payouts
+        </h5>
+        <% if @stripe_account.present? %>
+          <%  %>
+          <% if @stripe_account.active? %>
+            <span class="badge  badge-success ml-3">
+              <%= icon('check') %>
+              Active
+            </span>
+          <% else %>
+            <span class="badge  badge-warning ml-3">
+              <%= icon('exclamation-circle') %>
+              Pending
+            </span>
+          <% end %>
+        <% else %>
+          <span class="badge  badge-warning ml-3">
+            <%= icon('exclamation-circle') %>
+            Not connected
+          </span>
+        <% end %>
+        <%= icon('chevron-down', class: 'arrow ml-auto') %>
+      </a>
+    </div>
+    <div id="payments-address--collapsed" class="collapse" aria-labelledby="payments-address--heading-collapsed">
+      <div class="card-body">
+        <% if @stripe_account.present? %>
+          <label>Stripe account ID:</label>
+
+          <div class="d-flex mb-2 pr-1 py-1 pl-2 w-100 rounded bg-light border" data-controller="clipboard" data-clipboard-success-content-value="Copied!">
+            <%= text_field_tag :stripe_connect_id, @stripe_account.account_id, readonly: true, class: 'form-control-plaintext py-0 text-muted', data: { clipboard_target: 'source' } %>
+            <button data-action="clipboard#copy" data-clipboard-target="button" class="btn btn-sm py-1 hover-gray">
+              <%= Spree.t(:copy) %>
+            </button>
+          </div>
+
+          <%= link_to "https://dashboard.stripe.com/connect/accounts/#{@stripe_account.account_id}/activity", class: 'btn btn-secondary btn-sm' do %>
+            Open Stripe dashboard
+            <%= icon('external-link', class: 'ml-2') %>
+          <% end %>
+
+          <hr class="my-3" />
+
+          <label>Payouts schedule:</label>
+          <%= render 'display_payouts_schedule' %>
+        <% else %>
+          <p class="text-center m-5 text-muted">
+            Not connected
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end%>

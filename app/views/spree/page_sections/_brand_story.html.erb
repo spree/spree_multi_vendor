@@ -1,0 +1,51 @@
+<% cache_unless page_builder_enabled?, [*spree_base_cache_scope.call(section), product.brand].compact do %>
+  <% if product.brand && product.brand.image.attached? && product.brand.description.present? %>
+    <% logo = product.brand.square_image %>
+
+    <div style="<%= section_styles(section) %>">
+      <div class="page-container">
+        <div class="lg:grid grid-cols-12 hidden gap-10">
+          <div class="col-span-7">
+            <%= link_to spree.nested_taxons_path(product.brand) do %>
+              <%= spree_image_tag(product.brand.image, width: 770, height: 400, class: 'rounded', loading: :lazy, alt: product.brand.name) %>
+            <% end %>
+          </div>
+
+          <div class="col-span-5 flex flex-col gap-4">
+            <% if logo.attached? && logo.variable? %>
+              <%= link_to spree.nested_taxons_path(product.brand) do %>
+                <%= spree_image_tag(logo, width: 64, height: 64, class: 'rounded', loading: :lazy, alt: product.brand.name) %>
+              <% end %>
+            <% end %>
+            <div class="flex flex-col gap-4">
+              <div>
+                <%= product.brand.description %>
+              </div>
+
+              <div>
+                <%= link_to "#{Spree.t(:view)} #{product.brand.name}", spree.nested_taxons_path(product.brand), class: "link" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex lg:hidden flex-col gap-6">
+          <% if logo.attached? && logo.variable? %>
+            <%= link_to spree.nested_taxons_path(product.brand) do %>
+              <%= spree_image_tag(logo, width: 64, height: 64, class: 'rounded', loading: :lazy, alt: product.brand.name) %>
+            <% end %>
+          <% end %>
+          <div>
+            <%= link_to spree.nested_taxons_path(product.brand) do %>
+              <%= spree_image_tag(product.brand.image, width: 360, height: 360, class: 'rounded', loading: :lazy, alt: product.brand.name) %>
+            <% end %>
+          </div>
+          <div>
+            <%= product.brand.description %>
+          </div>
+          <%= link_to "#{Spree.t(:view)} #{product.brand.name}", spree.nested_taxons_path(product.brand), class: "link" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
