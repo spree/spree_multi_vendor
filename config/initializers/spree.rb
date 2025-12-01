@@ -13,16 +13,11 @@ Rails.application.config.after_initialize do
   # Shipping methods
   Spree.admin.partials.shipping_methods_actions << 'spree/admin/shipping_methods/actions'
 
-  # Store
-  Spree.admin.partials.vendors_nav << 'spree/admin/shared/sidebar/vendors_nav'
-  Spree.admin.partials.store_settings_nav << 'spree/admin/shared/marketplace_settings_nav'
-  Spree.admin.partials.store_products_nav << 'spree/admin/shared/marketplace_products_nav'
-
   # Metafields
   Spree.metafields.enabled_resources << Spree::Vendor
 
   # Translations
-  Rails.application.config.spree.translatable_resources << Spree::Vendor
+  Spree.translatable_resources << Spree::Vendor
 
   # ===============================================
   # Navigation for marketplace owners

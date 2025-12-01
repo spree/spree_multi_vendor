@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :vendor_taxon_rule, class: Spree::TaxonRules::Vendor do
+  factory :vendor_taxon_rule, class: SpreeMultiVendor::TaxonRules::Vendor do
     trait :is_equal_to do
       match_policy { :is_equal_to }
     end

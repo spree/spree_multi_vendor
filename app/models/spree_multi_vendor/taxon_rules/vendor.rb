@@ -1,4 +1,4 @@
-module Spree
+module SpreeMultiVendor
   module TaxonRules
     class Vendor < Spree::TaxonRule
       def apply(scope)
