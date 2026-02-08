@@ -1,21 +1,10 @@
+> [!IMPORTANT]
+>
+> We're in the process of moving Multi Vendor logic into Spree Core, you can track progress here: https://github.com/spree/spree/issues/13323
+
 # Spree Commerce Multi Vendor Marketplace Open Source
 
 This is a Spree Commerce open-source [multi vendor marketplace](https://spreecommerce.org/marketplace-ecommerce/) extension. It's a great starting point if you're building a marketplace on top of [Spree](https://spreecommerce.org). Our goal was flexibility to allow you to tweak it to your needs.
-
-## Installation
-
-Please [follow our Multi-Vendor quickstart guide](https://spreecommerce.org/docs/developer/multi-vendor/quickstart).
-
-## Community Edition vs Enterprise Edition
-
-If you need a product that has all of the marketplace features out of the box, such as supplier onboarding, Stripe Connect payment splitting and payouts, and doesn't require much custom development, we recommend using [Spree Enterprise Edition](https://spreecommerce.org/pricing/).
-
-### [Multi-vendor Marketplace](https://spreecommerce.org/marketplace-ecommerce/) Enterprise Edition
-Run your own marketplace with multiple suppliers, each with a dedicated supplier dashboard
-- [Marketplace eCommerce Capabilities](https://spreecommerce.org/docs/use-case/marketplace/capabilities)
-- [Marketplace eCommerce Admin Panel](https://spreecommerce.org/docs/use-case/marketplace/admin-dashboard)
-- [Marketplace eCommerce Vendor Panel](https://spreecommerce.org/docs/use-case/marketplace/vendor-dashboard)
-- [Marketplace eCommerce Customer Experience](https://spreecommerce.org/docs/use-case/marketplace/customer-ux)
 
 ## License
 
