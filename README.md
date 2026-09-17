@@ -1,6 +1,6 @@
 > [!IMPORTANT]
 >
-> We're in the process of moving Multi Vendor logic into Spree Core, you can track progress here: https://github.com/spree/spree/issues/13323
+> Multi Vendor is now [part of Spree Core with Spree 6](https://github.com/spree/spree/releases/tag/v6.0.0.beta2). This plugin is no longer needed.
 
 # Spree Commerce Multi Vendor Marketplace Open Source
 
